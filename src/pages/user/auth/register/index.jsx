@@ -1,6 +1,5 @@
-import React from 'react';
-import SimpleLoginForm from 'simple-login-form';
+import React from "react"
 
 export const RegisterPage = () => {
-    <SimpleLoginForm/>
+    return <div className="register-page"></div>
 }

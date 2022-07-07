@@ -5,9 +5,8 @@ import { AppFooter } from './components/footer';
 import { AppHeader } from './components/header';
 
 AppLayout.propTypes = {
-    exact: PropTypes.bool,
     path: PropTypes.string,
-    component: PropTypes.func,
+    element: PropTypes.element,
 };
 
 AppLayout.defaultProps = {
@@ -17,11 +16,11 @@ AppLayout.defaultProps = {
 };
 
 export function AppLayout(props) {
-    const { exact, path, component: Component } = props;
+    const { path, element } = props;
     return (
-        <Route exact={exact} path={path}>
+        <Route path={path} >
             <AppHeader/>
-            <Component />
+            {element}
             <AppFooter/>
         </Route>
     );

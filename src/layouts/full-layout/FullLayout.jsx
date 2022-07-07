@@ -3,22 +3,12 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 FullLayout.propTypes = {
-    exact: PropTypes.bool,
     path: PropTypes.string,
-    component: PropTypes.func,
-};
-
-FullLayout.defaultProps = {
-    exact: false,
-    path: null,
-    component: null,
+    element: PropTypes.element,
 };
 
 export function FullLayout(props) {
-    const { exact, path, component: Component } = props;
     return (
-        <Route exact={exact} path={path}>
-            <Component />
-        </Route>
+        <Route {...props}/>
     );
 }

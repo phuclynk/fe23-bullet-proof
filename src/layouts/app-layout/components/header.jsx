@@ -1,3 +1,5 @@
+import React from "react"
+
 export const AppHeader = () => {
-    return <div></div>
+    return <div className="app-header"></div>
 }

@@ -1,3 +1,5 @@
+import React from "react"
+
 export const AppFooter = () => {
-    return <div></div>
+    return <div className="app-footer"></div>
 }

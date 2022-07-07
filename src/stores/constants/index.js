@@ -1,1 +1,0 @@
-export { USER_ACTION } from './user.constant';

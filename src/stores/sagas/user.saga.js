@@ -1,95 +1,52 @@
-import { notification } from 'antd';
-import { ROUTER_URL } from 'constants/index';
 import {
     put,
     takeEvery
 } from 'redux-saga/effects'
+import { loginAction, 
+    loginActionFailed, 
+    loginActionSuccess, 
+    logoutAction, 
+    logoutActionFailed, 
+    logoutActionSuccess, 
+    registerAction, 
+    registerActionSuccess, 
+} from '../slices/user.slice.js';
 import { AuthAPI } from '../../api';
-import history from '../../utils/history';
-import {
-    FAILURE,
-    REQUEST,
-    SUCCESS,
-    USER_ACTION,
-} from '../constants';
 
 function* login(action) {
     try {
         const {
-            data
+            loginPayload
         } = action.payload
-        const response = yield AuthAPI.login(data);
-        yield put({
-            type: SUCCESS(USER_ACTION.LOGIN),
-            payload: response,
-        });
-        yield notification.success({
-            description: "Login success!"
-        });
-
-        if (response.data.user.role === "admin") {
-            yield history.push(ROUTER_URL.ADMIN)
-        }
-        else {
-            yield history.push(ROUTER_URL.HOME)
-        }
+        const response = yield AuthAPI.login(loginPayload);
+        yield put(loginActionSuccess(response));
     } catch (e) {
-        yield put({
-            type: FAILURE(USER_ACTION.LOGIN),
-            payload: e.message
-        });
-        yield notification.error({
-            description: "Incorrect account password!"
-        });
-
+        yield put(loginActionFailed(e.message));
     }
 }
 
-function* logout(action) {
+function* logout() {
     try {
-        yield put({
-            type: SUCCESS(USER_ACTION.LOGOUT),
-            payload: action.payload
-        });
+        yield put(logoutActionSuccess());
     } catch (e) {
-        yield put({
-            type: FAILURE(USER_ACTION.LOGOUT),
-            message: e.message
-        });
+        yield put(logoutActionFailed());
     }
 }
 
 function* register(action) {
     try {
         const {
-            data
+            registerPayload
         } = action.payload;
-        const response = yield AuthAPI.register(data);
-        yield put({
-            type: SUCCESS(USER_ACTION.REGISTER),
-            payload: response.data
-        });
-
-        yield notification.success({
-            description: "Register success!"
-        });
-        yield history.push(ROUTER_URL.LOGIN)
+        const response = yield AuthAPI.register(registerPayload);
+        yield put(registerActionSuccess(response));
     } catch (e) {
-
-        yield put({
-            type: FAILURE(USER_ACTION.REGISTER),
-            payload: e.response.data
-        });
-        yield notification.error({
-            description: e.response.data
-        });
+        yield put(registerActionSuccess(e));
     }
 }
 
-
-function* userSaga() {
-    yield takeEvery(REQUEST(USER_ACTION.LOGIN), login);
-    yield takeEvery(REQUEST(USER_ACTION.REGISTER), register);
-    yield takeEvery(REQUEST(USER_ACTION.LOGOUT), logout);
+export function* userSaga() {
+    yield takeEvery(loginAction, login);
+    yield takeEvery(registerAction, register);
+    yield takeEvery(logoutAction, logout);
 }
-export default userSaga;
