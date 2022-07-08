@@ -12,7 +12,7 @@ const rootReducer = {
     user: userReducer
 }
 
-export const todoStore = configureStore({
+export const appStore = configureStore({
     reducer: rootReducer,
     // Value nhận vào là list các middleware
     // getDefaultMiddleware để ta trả về các middleware sẵn có trong redux

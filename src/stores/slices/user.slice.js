@@ -2,15 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const USER_INFO_KEY = 'USER_INFO';
 
+const userInfoFromStorage = localStorage.getItem(USER_INFO_KEY) ? JSON.parse(localStorage.getItem(USER_INFO_KEY)) : null;
+
 const initialState = {
     userInfoState: {
-        data: JSON.parse(localStorage.getItem(USER_INFO_KEY)) || {},
+        data: userInfoFromStorage,
         loading: false,
         error: null,
     },
 }
 
-const counterSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -22,11 +24,12 @@ const counterSlice = createSlice({
             }
         },
         loginActionSuccess(state, action) {
-            localStorage.setItem(USER_INFO_KEY, JSON.stringify(action.payload.userInfo))
+            const userInfoResponse = {...action.payload};
+            localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfoResponse))
             state.userInfoState = {
                 ...state.userInfoState,
                 loading: false,
-                data: action.payload.userInfo
+                data: userInfoResponse
             }
         },
         loginActionFailed(state, action) {
@@ -37,26 +40,32 @@ const counterSlice = createSlice({
                 error: action.payload.error
             }
         },
-        registerAction(state, action) {
+        // registerAction(state, action) {
             
-        },
-        registerActionSuccess(state, action) {
-        },
-        registerActionFailed(state, action) {
-        },
+        // },
+        // registerActionSuccess(state, action) {
+        // },
+        // registerActionFailed(state, action) {
+        // },
         logoutAction(state, action) {
+            console.log('logout')
             localStorage.removeItem(USER_INFO_KEY);
+            state.userInfoState = {
+                ...state.userInfoState,
+                loading: false,
+                data: null
+            }
         },
-        logoutActionSuccess(state, action) {
-        },
-        logoutActionFailed(state, action) {
-        },
+        // logoutActionSuccess(state, action) {
+        // },
+        // logoutActionFailed(state, action) {
+        // },
     },
 })
 
 export const { 
     loginAction, loginActionSuccess, loginActionFailed, 
-    registerAction, registerActionSuccess, registerActionFailed,
-    logoutAction, logoutActionSuccess, logoutActionFailed,
-} = counterSlice.actions
-export const userReducer = counterSlice.reducer
+    // registerAction, registerActionSuccess, registerActionFailed,
+    logoutAction,
+} = userSlice.actions
+export const userReducer = userSlice.reducer
