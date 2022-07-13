@@ -1,5 +1,5 @@
-import React from "react"
+import React from "react";
 
 export const AppHeader = () => {
-    return <div className="app-header"></div>
-}
+  return <div className="app-header"></div>;
+};
