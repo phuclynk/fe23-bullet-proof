@@ -9,7 +9,8 @@ import { ProductAPI } from "api/product.api.js";
 function* fetchProduct(action) {
   try {
     yield delay(500);
-    const response = yield ProductAPI.fetchProduct(action.payload);
+    const { page, limit } = action.payload;
+    const response = yield ProductAPI.fetchProduct(page, limit);
     const productData = response.data;
     const totalProduct = response.headers["x-total-count"];
 

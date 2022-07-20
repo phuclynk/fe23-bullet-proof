@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { AppFooter } from "./components/Footer";
 import { AppHeader } from "./components/Header";
+import "./app-layout.css";
 
 AppLayout.propTypes = {
   children: PropTypes.element,
@@ -10,10 +10,9 @@ AppLayout.propTypes = {
 export function AppLayout(props) {
   const { children } = props;
   return (
-    <div>
+    <div className="app-layout">
       <AppHeader />
       {children}
-      {/* <AppFooter /> */}
     </div>
   );
 }

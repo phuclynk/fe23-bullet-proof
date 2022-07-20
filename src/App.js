@@ -1,20 +1,14 @@
 import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import { AppLayout } from "layouts";
-import { FullLayout } from "layouts/full-layout/FullLayout";
+import AdminPage from "pages/admin";
 import { HomePage } from "pages/user/home";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { ProtectedRoute } from "./router";
 import { LoginPage } from "./pages/user/auth/login";
 import { RegisterPage } from "./pages/user/auth/register";
 
 import "./App.css";
-import { ProtectedRoute } from "components/protected-route";
-import AdminPage from "pages/admin";
 
 function App() {
   return (
@@ -28,6 +22,16 @@ function App() {
           <Route path={"register"} element={<RegisterPage />} />
 
           {/* Private Route */}
+          <Route
+            path={"home/:params"}
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <HomePage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
           <Route
             path={"home"}
             element={
@@ -45,7 +49,32 @@ function App() {
                 <AdminPage />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route
+              path={"category"}
+              element={
+                <ProtectedRoute>
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={"product"}
+              element={
+                <ProtectedRoute>
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={"order"}
+              element={
+                <ProtectedRoute>
+                  <AdminPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

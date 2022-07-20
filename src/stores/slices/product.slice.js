@@ -27,7 +27,7 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     fetchProductAction: (state, action) => {
-      const page = action.payload;
+      const { page, limit } = action.payload;
 
       state.productState = {
         ...state.productState,
@@ -35,6 +35,7 @@ const productSlice = createSlice({
         pagination: {
           ...state.productState.pagination,
           page,
+          limit,
         },
       };
     },
